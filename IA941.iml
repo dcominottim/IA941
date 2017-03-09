@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library name="lib">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/jme2.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/json.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/lwjgl2.9.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="library" name="common" level="project" />
+    <orderEntry type="library" name="WorldServer3D" level="project" />
+    <orderEntry type="library" name="WS3DProxy" level="project" />
+  </component>
+</module>
