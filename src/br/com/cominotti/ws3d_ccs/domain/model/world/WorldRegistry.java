@@ -13,10 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package br.com.cominotti.ws3d_ccs.gui.creature_control;
+package br.com.cominotti.ws3d_ccs.domain.model.world;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import br.com.cominotti.ws3d_ccs.domain.model.CreatureProvider;
 import ws3dproxy.CommandExecException;
 import ws3dproxy.WS3DProxy;
 import ws3dproxy.model.Creature;
@@ -37,12 +39,11 @@ public class WorldRegistry implements CreatureProvider {
     
     private WorldRegistry() {
         try {
-            WS3D_PROXY.getWorld().reset();             
+            WS3D_PROXY.getWorld().reset();
             World.createFood(0, 150, 159);
             this.CREATURE = WS3D_PROXY.createCreature();
-            Logger.getLogger(WorldRegistry.class.getName()).log(Level.SEVERE, null, "OK");
         } catch (CommandExecException ex) {
-            Logger.getLogger(WorldRegistry.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(WorldRegistry.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
             throw new RuntimeException();
         }
     }

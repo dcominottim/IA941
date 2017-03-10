@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package br.com.cominotti.ws3d_ccs.gui.creature_control;
+package br.com.cominotti.ws3d_ccs.domain.model;
 
 import ws3dproxy.model.Creature;
 

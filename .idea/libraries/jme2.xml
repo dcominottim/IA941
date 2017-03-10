@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="jme2">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/jme2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
