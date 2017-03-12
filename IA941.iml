@@ -7,19 +7,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module-library">
-      <library name="lib">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/jme2.jar!/" />
-          <root url="jar://$MODULE_DIR$/lib/json.jar!/" />
-          <root url="jar://$MODULE_DIR$/lib/lwjgl2.9.0.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="library" name="common" level="project" />
-    <orderEntry type="library" name="WorldServer3D" level="project" />
-    <orderEntry type="library" name="WS3DProxy" level="project" />
+    <orderEntry type="library" name="lib" level="project" />
   </component>
 </module>

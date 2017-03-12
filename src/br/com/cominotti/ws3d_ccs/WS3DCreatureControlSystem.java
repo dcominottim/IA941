@@ -5,40 +5,43 @@
  */
 package br.com.cominotti.ws3d_ccs;
 
-import br.com.cominotti.ws3d_ccs.gui.creatures.controls.MoveForwardControl;
-import br.com.cominotti.ws3d_ccs.domain.model.world.WorldRegistry;
-
-import java.util.concurrent.Executors;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import br.com.cominotti.ws3d_ccs.application.ApplicationState;
+import br.com.cominotti.ws3d_ccs.application.DefaultUseCaseRegistry;
+import br.com.cominotti.ws3d_ccs.application.world.use_cases.CreateWorldUseCaseInput;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import ws3dproxy.CommandExecException;
-import ws3dproxy.model.Creature;
 
 /**
  * @author ia941
  */
 public class WS3DCreatureControlSystem extends Application {
 
+    private final static Logger LOGGER = Logger.getLogger(WS3DCreatureControlSystem.class.getName());
+
+
     public static void main(String[] args) {
         WS3DServer.start();
+        ApplicationState.getInstance().handle(new CreateWorldUseCaseInput());
         launch(args);
     }
 
 
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.setTitle("W3SD Creature Control System Panel");
-        StackPane root = new StackPane();
-        root.getChildren().add(MoveForwardControl.create(WorldRegistry.getInstance()));
-        primaryStage.setScene(new Scene(root, 300, 250));
-        primaryStage.show();
+        try {
+            GridPane page = FXMLLoader.load(getClass().getResource("gui/main_panel.fxml"));
+            Scene scene = new Scene(page);
+            primaryStage.setScene(scene);
+            primaryStage.setTitle("WS3D Creature Control System");
+            primaryStage.show();
+        } catch (Exception ex) {
+            LOGGER.severe(ex.getMessage());
+            throw new RuntimeException();
+        }
     }
 }
