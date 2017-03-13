@@ -1,4 +1,4 @@
-package br.com.cominotti.ws3d_ccs.application.world.use_cases;
+package br.com.cominotti.ws3d_ccs.application.world.use_cases.creation;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -10,7 +10,7 @@ public class CreateWorldUseCaseOutput {
     private final Set<String> foodsNames;
 
 
-    public CreateWorldUseCaseOutput(final String creatureName, Set<String> foodsNames) {
+    public CreateWorldUseCaseOutput(final String creatureName, final Set<String> foodsNames) {
         this.creatureName = creatureName;
         this.foodsNames = new HashSet<>(foodsNames);
     }

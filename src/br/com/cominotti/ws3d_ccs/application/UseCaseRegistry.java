@@ -6,8 +6,8 @@ import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.hiding.HideItUs
 import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.hiding.UnhideItUseCaseInput;
 import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.moving.*;
 import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.storing.PutInSackUseCaseInput;
-import br.com.cominotti.ws3d_ccs.application.world.use_cases.CreateWorldUseCaseInput;
-import br.com.cominotti.ws3d_ccs.application.world.use_cases.CreateWorldUseCaseOutput;
+import br.com.cominotti.ws3d_ccs.application.world.use_cases.creation.CreateWorldUseCaseInput;
+import br.com.cominotti.ws3d_ccs.application.world.use_cases.creation.CreateWorldUseCaseOutput;
 
 import java.util.concurrent.CompletableFuture;
 

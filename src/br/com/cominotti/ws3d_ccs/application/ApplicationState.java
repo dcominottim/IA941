@@ -7,12 +7,20 @@ import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.hiding.HideItUs
 import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.hiding.UnhideItUseCaseInput;
 import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.moving.*;
 import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.storing.PutInSackUseCaseInput;
-import br.com.cominotti.ws3d_ccs.application.world.use_cases.CreateWorldUseCaseInput;
-import br.com.cominotti.ws3d_ccs.application.world.use_cases.CreateWorldUseCaseOutput;
-import br.com.cominotti.ws3d_ccs.infrastructure.repositories.creatures.InMemoryCreatureRepository;
+import br.com.cominotti.ws3d_ccs.application.world.use_cases.creation.CreateWorldUseCaseInput;
+import br.com.cominotti.ws3d_ccs.application.world.use_cases.creation.CreateWorldUseCaseOutput;
+import br.com.cominotti.ws3d_ccs.infrastructure.storage.creatures.InMemoryCreatureRepository;
 import br.com.cominotti.ws3d_ccs.infrastructure.storage.creatures.InMemoryCreatureStorage;
-import ws3dproxy.WS3DProxy;
+import br.com.cominotti.ws3d_ccs.infrastructure.storage.foods.InMemoryFoodRepository;
+import br.com.cominotti.ws3d_ccs.infrastructure.storage.foods.InMemoryFoodStorage;
+import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.ObservableSet;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
 public final class ApplicationState implements UseCaseRegistry {
@@ -23,12 +31,18 @@ public final class ApplicationState implements UseCaseRegistry {
 
     private String creatureName;
 
+    private Set<String> foodsNames;
+
+    private ObservableList<String> observableFoods;
+
 
     private ApplicationState() {
         this.useCaseRegistry = new DefaultUseCaseRegistry(
-                new WS3DProxy(),
                 new InMemoryCreatureRepository(
                         new InMemoryCreatureStorage()
+                ),
+                new InMemoryFoodRepository(
+                        new InMemoryFoodStorage()
                 )
         );
     }
@@ -43,58 +57,73 @@ public final class ApplicationState implements UseCaseRegistry {
         return creatureName;
     }
 
+    public ObservableList<String> getObservableFoods() {
+        return observableFoods;
+    }
+
     @Override
-    public CompletableFuture<CreateWorldUseCaseOutput> handle(CreateWorldUseCaseInput input) {
-        CompletableFuture<CreateWorldUseCaseOutput> result = useCaseRegistry.handle(input);
-        result.thenApply(
-                createWorldUseCaseOutput ->
-                        creatureName = createWorldUseCaseOutput.getCreatureName()
+    public CompletableFuture<CreateWorldUseCaseOutput> handle(final CreateWorldUseCaseInput input) {
+        return useCaseRegistry.handle(input).thenApply(
+                createWorldUseCaseOutput -> {
+                    creatureName = createWorldUseCaseOutput.getCreatureName();
+                    foodsNames = createWorldUseCaseOutput.getFoodsNames();
+                    observableFoods = FXCollections.observableList(
+                            new ArrayList<>(createWorldUseCaseOutput.getFoodsNames())
+                    );
+                    return createWorldUseCaseOutput;
+                }
         );
-        return result;
     }
 
     @Override
-    public CompletableFuture<EmptyReturn> handle(EatItUseCaseInput input) {
+    public CompletableFuture<EmptyReturn> handle(final EatItUseCaseInput input) {
+        return useCaseRegistry.handle(input).thenApply(
+                emptyReturn -> {
+                    Platform.runLater(
+                            () -> observableFoods.remove(input.getFoodName())
+                    );
+                    return emptyReturn;
+                }
+        );
+    }
+
+    @Override
+    public CompletableFuture<EmptyReturn> handle(final HideItUseCaseInput input) {
         return useCaseRegistry.handle(input);
     }
 
     @Override
-    public CompletableFuture<EmptyReturn> handle(HideItUseCaseInput input) {
+    public CompletableFuture<EmptyReturn> handle(final UnhideItUseCaseInput input) {
         return useCaseRegistry.handle(input);
     }
 
     @Override
-    public CompletableFuture<EmptyReturn> handle(UnhideItUseCaseInput input) {
+    public CompletableFuture<EmptyReturn> handle(final MoveForwardUseCaseInput input) {
         return useCaseRegistry.handle(input);
     }
 
     @Override
-    public CompletableFuture<EmptyReturn> handle(MoveForwardUseCaseInput input) {
+    public CompletableFuture<EmptyReturn> handle(final MoveBackwardUseCaseInput input) {
         return useCaseRegistry.handle(input);
     }
 
     @Override
-    public CompletableFuture<EmptyReturn> handle(MoveBackwardUseCaseInput input) {
+    public CompletableFuture<EmptyReturn> handle(final RotateLeftUseCaseInput input) {
         return useCaseRegistry.handle(input);
     }
 
     @Override
-    public CompletableFuture<EmptyReturn> handle(RotateLeftUseCaseInput input) {
+    public CompletableFuture<EmptyReturn> handle(final RotateRightUseCaseInput input) {
         return useCaseRegistry.handle(input);
     }
 
     @Override
-    public CompletableFuture<EmptyReturn> handle(RotateRightUseCaseInput input) {
+    public CompletableFuture<EmptyReturn> handle(final StopUseCaseInput input) {
         return useCaseRegistry.handle(input);
     }
 
     @Override
-    public CompletableFuture<EmptyReturn> handle(StopUseCaseInput input) {
-        return useCaseRegistry.handle(input);
-    }
-
-    @Override
-    public CompletableFuture<EmptyReturn> handle(PutInSackUseCaseInput input) {
+    public CompletableFuture<EmptyReturn> handle(final PutInSackUseCaseInput input) {
         return useCaseRegistry.handle(input);
     }
 }

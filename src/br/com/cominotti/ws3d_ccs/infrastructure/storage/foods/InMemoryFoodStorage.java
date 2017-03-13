@@ -1,20 +1,29 @@
 package br.com.cominotti.ws3d_ccs.infrastructure.storage.foods;
 
+import ws3dproxy.model.Thing;
+
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class InMemoryFoodStorage implements FoodStorage {
 
-    private Set<String> storage = new HashSet<>();
+    private Map<String, Thing> storage = new HashMap<>();
 
 
     @Override
-    public void put(String foodName) {
-        storage.add(foodName);
+    public Set<Thing> getAll() {
+        return new HashSet<>(storage.values());
     }
 
     @Override
-    public Set<String> getAll() {
-        return new HashSet<>(storage);
+    public void put(Thing food) {
+        storage.put(food.getName(), food);
+    }
+
+    @Override
+    public void remove(String foodName) {
+        storage.remove(foodName);
     }
 }

@@ -21,7 +21,7 @@ public class MoveForwardUseCase implements RunnableUseCase<MoveForwardUseCaseInp
 
 
     @Override
-    public EmptyReturn run(MoveForwardUseCaseInput input) {
+    public EmptyReturn run(final MoveForwardUseCaseInput input) {
         try {
             final Creature creature = creatureRepository.findCreatureByName(input.getCreatureName());
             creature.start();

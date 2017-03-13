@@ -4,13 +4,20 @@ public final class EatItUseCaseInput {
 
     private final String creatureName;
 
+    private final String foodName;
 
-    public EatItUseCaseInput(final String creatureName) {
+
+    public EatItUseCaseInput(final String creatureName, final String foodName) {
         this.creatureName = creatureName;
+        this.foodName = foodName;
     }
 
 
     public String getCreatureName() {
         return creatureName;
+    }
+
+    public String getFoodName() {
+        return foodName;
     }
 }

@@ -3,8 +3,6 @@ package br.com.cominotti.ws3d_ccs.application.creatures.use_cases.hiding;
 import br.com.cominotti.ws3d_ccs.application.commons.CreatureRepository;
 import br.com.cominotti.ws3d_ccs.application.commons.EmptyReturn;
 import br.com.cominotti.ws3d_ccs.application.RunnableUseCase;
-import br.com.cominotti.ws3d_ccs.application.commons.CreatureRepositoryProvider;
-import br.com.cominotti.ws3d_ccs.infrastructure.storage.creatures.CreatureStorage;
 import ws3dproxy.CommandExecException;
 import ws3dproxy.model.Creature;
 import ws3dproxy.model.Thing;
@@ -19,7 +17,7 @@ public final class HideItUseCase implements RunnableUseCase<HideItUseCaseInput, 
     private final CreatureRepository creatureRepository;
 
 
-    public HideItUseCase(CreatureRepository creatureRepository) {
+    public HideItUseCase(final CreatureRepository creatureRepository) {
         this.creatureRepository = creatureRepository;
     }
 

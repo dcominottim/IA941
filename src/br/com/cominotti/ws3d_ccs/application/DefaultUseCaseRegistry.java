@@ -2,6 +2,7 @@ package br.com.cominotti.ws3d_ccs.application;
 
 import br.com.cominotti.ws3d_ccs.application.commons.CreatureRepository;
 import br.com.cominotti.ws3d_ccs.application.commons.EmptyReturn;
+import br.com.cominotti.ws3d_ccs.application.commons.FoodRepository;
 import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.eating.EatItUseCase;
 import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.eating.EatItUseCaseInput;
 import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.hiding.HideItUseCase;
@@ -11,9 +12,9 @@ import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.hiding.UnhideIt
 import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.moving.*;
 import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.storing.PutInSackUseCase;
 import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.storing.PutInSackUseCaseInput;
-import br.com.cominotti.ws3d_ccs.application.world.use_cases.CreateWorldUseCase;
-import br.com.cominotti.ws3d_ccs.application.world.use_cases.CreateWorldUseCaseInput;
-import br.com.cominotti.ws3d_ccs.application.world.use_cases.CreateWorldUseCaseOutput;
+import br.com.cominotti.ws3d_ccs.application.world.use_cases.creation.CreateWorldUseCase;
+import br.com.cominotti.ws3d_ccs.application.world.use_cases.creation.CreateWorldUseCaseInput;
+import br.com.cominotti.ws3d_ccs.application.world.use_cases.creation.CreateWorldUseCaseOutput;
 import ws3dproxy.WS3DProxy;
 
 import java.util.concurrent.CompletableFuture;
@@ -43,10 +44,10 @@ public class DefaultUseCaseRegistry implements UseCaseRegistry {
     private final PutInSackUseCase putInSackUseCase;
 
 
-    public DefaultUseCaseRegistry(final WS3DProxy ws3DProxy, final CreatureRepository creatureRepository) {
+    public DefaultUseCaseRegistry(final CreatureRepository creatureRepository, final FoodRepository foodRepository) {
         this.useCaseRunner = AsyncUseCaseRunner.getInstance();
-        this.createWorldUseCase = new CreateWorldUseCase(ws3DProxy, creatureRepository);
-        this.eatItUseCase = new EatItUseCase(creatureRepository);
+        this.createWorldUseCase = new CreateWorldUseCase(creatureRepository, foodRepository);
+        this.eatItUseCase = new EatItUseCase(creatureRepository, foodRepository);
         this.hideItUseCase = new HideItUseCase(creatureRepository);
         this.unhideItUseCase = new UnhideItUseCase(creatureRepository);
         this.moveForwardUseCase = new MoveForwardUseCase(creatureRepository);

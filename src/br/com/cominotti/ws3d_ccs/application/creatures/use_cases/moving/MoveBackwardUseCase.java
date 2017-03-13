@@ -16,13 +16,13 @@ public class MoveBackwardUseCase implements RunnableUseCase<MoveBackwardUseCaseI
     private final CreatureRepository creatureRepository;
 
 
-    public MoveBackwardUseCase(CreatureRepository creatureRepository) {
+    public MoveBackwardUseCase(final CreatureRepository creatureRepository) {
         this.creatureRepository = creatureRepository;
     }
 
 
     @Override
-    public EmptyReturn run(MoveBackwardUseCaseInput input) {
+    public EmptyReturn run(final MoveBackwardUseCaseInput input) {
         try {
             final Creature creature =  creatureRepository.findCreatureByName(input.getCreatureName());
             creature.start();

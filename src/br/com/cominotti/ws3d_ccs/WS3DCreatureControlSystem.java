@@ -8,8 +8,7 @@ package br.com.cominotti.ws3d_ccs;
 import java.util.logging.Logger;
 
 import br.com.cominotti.ws3d_ccs.application.ApplicationState;
-import br.com.cominotti.ws3d_ccs.application.DefaultUseCaseRegistry;
-import br.com.cominotti.ws3d_ccs.application.world.use_cases.CreateWorldUseCaseInput;
+import br.com.cominotti.ws3d_ccs.application.world.use_cases.creation.CreateWorldUseCaseInput;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -25,9 +24,15 @@ public class WS3DCreatureControlSystem extends Application {
 
 
     public static void main(String[] args) {
-        WS3DServer.start();
-        ApplicationState.getInstance().handle(new CreateWorldUseCaseInput());
-        launch(args);
+        try {
+            ApplicationState.getInstance().handle(
+                    new CreateWorldUseCaseInput()
+            ).thenAccept(
+                    createWorldUseCaseOutput -> launch(args)
+            ).join();
+        } catch (Exception ex) {
+            LOGGER.severe(ex.getMessage());
+        }
     }
 
 

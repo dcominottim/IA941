@@ -1,4 +1,4 @@
-package br.com.cominotti.ws3d_ccs.infrastructure.repositories.creatures;
+package br.com.cominotti.ws3d_ccs.infrastructure.storage.creatures;
 
 import br.com.cominotti.ws3d_ccs.application.commons.CreatureRepository;
 import br.com.cominotti.ws3d_ccs.infrastructure.storage.creatures.CreatureStorage;
@@ -22,6 +22,6 @@ public class InMemoryCreatureRepository implements CreatureRepository {
 
     @Override
     public void saveCreature(Creature creature) {
-        creatureStorage.put(creature.getName(), creature);
+        creatureStorage.put(creature);
     }
 }

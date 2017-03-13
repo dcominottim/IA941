@@ -21,7 +21,7 @@ public class RotateLeftUseCase implements RunnableUseCase<RotateLeftUseCaseInput
 
 
     @Override
-    public EmptyReturn run(RotateLeftUseCaseInput input) {
+    public EmptyReturn run(final RotateLeftUseCaseInput input) {
         try {
             final Creature creature = creatureRepository.findCreatureByName(input.getCreatureName());
             creature.start();
@@ -34,6 +34,4 @@ public class RotateLeftUseCase implements RunnableUseCase<RotateLeftUseCaseInput
             throw new RuntimeException();
         }
     }
-
-
 }

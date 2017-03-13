@@ -10,8 +10,8 @@ public class InMemoryCreatureStorage implements CreatureStorage {
 
 
     @Override
-    public synchronized void put(String key, Creature creature) {
-        map.put(key, creature);
+    public synchronized void put(Creature creature) {
+        map.put(creature.getName(), creature);
     }
 
     @Override

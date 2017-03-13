@@ -4,7 +4,7 @@ import ws3dproxy.model.Creature;
 
 public interface CreatureStorage {
 
-    void put(String key, Creature creature);
+    void put(Creature creature);
 
     Creature get(String creatureName);
 }

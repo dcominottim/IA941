@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
 <GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="310.0" minHeight="-Infinity" minWidth="310.0" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.cominotti.ws3d_ccs.gui.MainPanelController">
@@ -47,11 +50,17 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button maxWidth="90.0" minWidth="90.0" mnemonicParsing="false" onMouseClicked="#handleEatItButtonOnMouseClicked" text="Eat It" />
-            <Button maxWidth="90.0" minWidth="90.0" mnemonicParsing="false" onMouseClicked="#handlePutInSackButtonOnMouseClicked" text="Put In Sack" GridPane.columnIndex="1" />
-            <Button maxWidth="90.0" minWidth="90.0" mnemonicParsing="false" onMouseClicked="#handleHideItButtonOnMouseClicked" text="Hide It" GridPane.columnIndex="2" />
-            <Button maxWidth="90.0" minWidth="90.0" mnemonicParsing="false" onMouseClicked="#handleUnhideItButtonOnMouseClicked" text="Unhide It" GridPane.rowIndex="1" />
+            <Button maxWidth="90.0" minWidth="90.0" mnemonicParsing="false" onMouseClicked="#handleEatItButtonOnMouseClicked" text="Eat It" GridPane.columnIndex="1" />
+            <Button maxWidth="90.0" minWidth="90.0" mnemonicParsing="false" onMouseClicked="#handlePutInSackButtonOnMouseClicked" text="Put In Sack" GridPane.columnIndex="2" />
+            <Button maxWidth="90.0" minWidth="90.0" mnemonicParsing="false" onMouseClicked="#handleHideItButtonOnMouseClicked" text="Hide It" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Button maxWidth="90.0" minWidth="90.0" mnemonicParsing="false" onMouseClicked="#handleUnhideItButtonOnMouseClicked" text="Unhide It" GridPane.columnIndex="2" GridPane.rowIndex="1" />
          </children>
       </GridPane>
+      <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="3">
+         <children>
+            <ComboBox fx:id="environmentComboBox" prefWidth="150.0">
+            </ComboBox>
+         </children>
+      </HBox>
    </children>
 </GridPane>

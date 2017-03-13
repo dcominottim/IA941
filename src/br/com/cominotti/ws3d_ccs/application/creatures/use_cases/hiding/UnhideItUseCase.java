@@ -17,7 +17,7 @@ public class UnhideItUseCase implements RunnableUseCase<UnhideItUseCaseInput, Em
     private final CreatureRepository creatureRepository;
 
 
-    public UnhideItUseCase(CreatureRepository creatureRepository) {
+    public UnhideItUseCase(final CreatureRepository creatureRepository) {
         this.creatureRepository = creatureRepository;
     }
 

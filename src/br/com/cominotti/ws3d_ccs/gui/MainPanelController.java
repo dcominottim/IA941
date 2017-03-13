@@ -7,7 +7,10 @@ import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.hiding.HideItUs
 import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.hiding.UnhideItUseCaseInput;
 import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.moving.*;
 import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.storing.PutInSackUseCaseInput;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
@@ -18,10 +21,15 @@ public class MainPanelController implements Initializable {
 
     private static final Logger LOGGER = Logger.getLogger(MainPanelController.class.getName());
 
+    @FXML
+    private ComboBox<String> environmentComboBox;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        //
+        environmentComboBox.setItems(
+                ApplicationState.getInstance().getObservableFoods()
+        );
     }
 
 
@@ -75,7 +83,7 @@ public class MainPanelController implements Initializable {
 
     public void handleEatItButtonOnMouseClicked(MouseEvent mouseEvent) {
         ApplicationState.getInstance().handle(new EatItUseCaseInput(
-                ApplicationState.getInstance().getCreatureName()
+                ApplicationState.getInstance().getCreatureName(), environmentComboBox.getValue()
         ));
     }
 
