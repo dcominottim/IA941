@@ -1,5 +1,6 @@
 package br.com.cominotti.ws3d_ccs.gui;
 
+import br.com.cominotti.ws3d_ccs.WS3DCreatureControlSystem;
 import br.com.cominotti.ws3d_ccs.application.ApplicationState;
 import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.eating.EatAllFoodsInVisionUseCaseInput;
 import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.eating.EatSingleFoodUseCaseInput;
@@ -22,11 +23,8 @@ import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Logger;
 
 public class MainPanelController implements Initializable {
-
-    private static final Logger LOGGER = Logger.getLogger(MainPanelController.class.getName());
 
     @FXML
     private ComboBox<String> environmentComboBox;
@@ -51,7 +49,7 @@ public class MainPanelController implements Initializable {
         unhideSingleThingButton.setDisable(true);
         putSingleThingInStackButton.setDisable(true);
         environmentComboBox.setItems(
-                ApplicationState.getInstance().getObservableThings()
+                WS3DCreatureControlSystem.getApplicationState().getObservableThings()
         );
         environmentComboBox.valueProperty().addListener(
                 (observable, oldValue, newValue) -> {
@@ -67,117 +65,117 @@ public class MainPanelController implements Initializable {
 
 
     public void handleMoveForwardButtonOnMousePressed(MouseEvent mouseEvent) {
-        ApplicationState.getInstance().handle(new MoveForwardUseCaseInput(
-                ApplicationState.getInstance().getCreatureName()
+        WS3DCreatureControlSystem.getApplicationState().handle(new MoveForwardUseCaseInput(
+                WS3DCreatureControlSystem.getApplicationState().getCreatureName()
         ));
     }
 
     public void handleMoveForwardButtonOnMouseReleased(MouseEvent mouseEvent) {
-        ApplicationState.getInstance().handle(new StopUseCaseInput(
-                ApplicationState.getInstance().getCreatureName()
+        WS3DCreatureControlSystem.getApplicationState().handle(new StopUseCaseInput(
+                WS3DCreatureControlSystem.getApplicationState().getCreatureName()
         ));
     }
 
     public void handleRotateLeftOnMousePressed(MouseEvent mouseEvent) {
-        ApplicationState.getInstance().handle(new RotateLeftUseCaseInput(
-                ApplicationState.getInstance().getCreatureName()
+        WS3DCreatureControlSystem.getApplicationState().handle(new RotateLeftUseCaseInput(
+                WS3DCreatureControlSystem.getApplicationState().getCreatureName()
         ));
     }
 
     public void handleRotateLeftOnMouseReleased(MouseEvent mouseEvent) {
-        ApplicationState.getInstance().handle(new StopUseCaseInput(
-                ApplicationState.getInstance().getCreatureName()
+        WS3DCreatureControlSystem.getApplicationState().handle(new StopUseCaseInput(
+                WS3DCreatureControlSystem.getApplicationState().getCreatureName()
         ));
     }
 
     public void handleRotateRightOnMousePressed(MouseEvent mouseEvent) {
-        ApplicationState.getInstance().handle(new RotateRightUseCaseInput(
-                ApplicationState.getInstance().getCreatureName()
+        WS3DCreatureControlSystem.getApplicationState().handle(new RotateRightUseCaseInput(
+                WS3DCreatureControlSystem.getApplicationState().getCreatureName()
         ));
     }
 
     public void handleRotateRightOnMouseReleased(MouseEvent mouseEvent) {
-        ApplicationState.getInstance().handle(new StopUseCaseInput(
-                ApplicationState.getInstance().getCreatureName()
+        WS3DCreatureControlSystem.getApplicationState().handle(new StopUseCaseInput(
+                WS3DCreatureControlSystem.getApplicationState().getCreatureName()
         ));
     }
 
     public void handleMoveBackwardButtonOnMousePressed(MouseEvent mouseEvent) {
-        ApplicationState.getInstance().handle(new MoveBackwardUseCaseInput(
-                ApplicationState.getInstance().getCreatureName()
+        WS3DCreatureControlSystem.getApplicationState().handle(new MoveBackwardUseCaseInput(
+                WS3DCreatureControlSystem.getApplicationState().getCreatureName()
         ));
     }
 
     public void handleMoveBackwardButtonOnMouseReleased(MouseEvent mouseEvent) {
-        ApplicationState.getInstance().handle(new StopUseCaseInput(
-                ApplicationState.getInstance().getCreatureName()
+        WS3DCreatureControlSystem.getApplicationState().handle(new StopUseCaseInput(
+                WS3DCreatureControlSystem.getApplicationState().getCreatureName()
         ));
     }
 
 
     public void handleEatAllThingsInVisionButtonOnMouseClicked(MouseEvent mouseEvent) {
-        ApplicationState.getInstance().handle(new EatAllFoodsInVisionUseCaseInput(
-                ApplicationState.getInstance().getCreatureName()
+        WS3DCreatureControlSystem.getApplicationState().handle(new EatAllFoodsInVisionUseCaseInput(
+                WS3DCreatureControlSystem.getApplicationState().getCreatureName()
         ));
     }
 
     public void handlePutAllThingsInVisionInSackButtonOnMouseClicked(MouseEvent mouseEvent) {
-        ApplicationState.getInstance().handle(new PutAllThingsInVisionInSackUseCaseInput(
-                ApplicationState.getInstance().getCreatureName()
+        WS3DCreatureControlSystem.getApplicationState().handle(new PutAllThingsInVisionInSackUseCaseInput(
+                WS3DCreatureControlSystem.getApplicationState().getCreatureName()
         ));
     }
 
     public void handleHideAllThingsInVisionButtonOnMouseClicked(MouseEvent mouseEvent) {
-        ApplicationState.getInstance().handle(new HideAllThingsInVisionUseCaseInput(
-                ApplicationState.getInstance().getCreatureName()
+        WS3DCreatureControlSystem.getApplicationState().handle(new HideAllThingsInVisionUseCaseInput(
+                WS3DCreatureControlSystem.getApplicationState().getCreatureName()
         ));
     }
 
     public void handleUnhideAllThingsInVisionButtonOnMouseClicked(MouseEvent mouseEvent) {
-        ApplicationState.getInstance().handle(new UnhideAllThingsInVisionUseCaseInput(
-                ApplicationState.getInstance().getCreatureName()
+        WS3DCreatureControlSystem.getApplicationState().handle(new UnhideAllThingsInVisionUseCaseInput(
+                WS3DCreatureControlSystem.getApplicationState().getCreatureName()
         ));
     }
 
     public void handleEatSingleThingButtonOnMouseClicked(MouseEvent mouseEvent) {
-        ApplicationState.getInstance().handle(new EatSingleFoodUseCaseInput(
-                ApplicationState.getInstance().getCreatureName(), environmentComboBox.getValue()
+        WS3DCreatureControlSystem.getApplicationState().handle(new EatSingleFoodUseCaseInput(
+                WS3DCreatureControlSystem.getApplicationState().getCreatureName(), environmentComboBox.getValue()
         ));
     }
 
     public void handlePutSingleThingInSackButtonOnMouseClicked(MouseEvent mouseEvent) {
-        ApplicationState.getInstance().handle(new PutSingleThingInSackUseCaseInput(
-                ApplicationState.getInstance().getCreatureName(), environmentComboBox.getValue()
+        WS3DCreatureControlSystem.getApplicationState().handle(new PutSingleThingInSackUseCaseInput(
+                WS3DCreatureControlSystem.getApplicationState().getCreatureName(), environmentComboBox.getValue()
         ));
     }
 
     public void handleHideSingleThingButtonOnMouseClicked(MouseEvent mouseEvent) {
-        ApplicationState.getInstance().handle(new HideSingleThingUseCaseInput(
-                ApplicationState.getInstance().getCreatureName(), environmentComboBox.getValue()
+        WS3DCreatureControlSystem.getApplicationState().handle(new HideSingleThingUseCaseInput(
+                WS3DCreatureControlSystem.getApplicationState().getCreatureName(), environmentComboBox.getValue()
         ));
     }
 
     public void handleUnhideSingleThingButtonOnMouseClicked(MouseEvent mouseEvent) {
-        ApplicationState.getInstance().handle(new UnhideSingleThingUseCaseInput(
-                ApplicationState.getInstance().getCreatureName(), environmentComboBox.getValue()
+        WS3DCreatureControlSystem.getApplicationState().handle(new UnhideSingleThingUseCaseInput(
+                WS3DCreatureControlSystem.getApplicationState().getCreatureName(), environmentComboBox.getValue()
         ));
     }
 
     public void handleGenLeafletButtonOnMouseClicked(MouseEvent mouseEvent) {
-        ApplicationState.getInstance().handle(new GenerateLeafletUseCaseInput(
-                ApplicationState.getInstance().getCreatureName()
+        WS3DCreatureControlSystem.getApplicationState().handle(new GenerateLeafletUseCaseInput(
+                WS3DCreatureControlSystem.getApplicationState().getCreatureName()
         ));
     }
 
     public void handlePrintLeafletsButtonOnMouseClicked(MouseEvent mouseEvent) {
-        ApplicationState.getInstance().handle(new PrintLeafletsDetailsUseCaseInput(
-                ApplicationState.getInstance().getCreatureName()
+        WS3DCreatureControlSystem.getApplicationState().handle(new PrintLeafletsDetailsUseCaseInput(
+                WS3DCreatureControlSystem.getApplicationState().getCreatureName()
         ));
     }
 
     public void handleDeliverLeafletsButtonOnMouseClicked(MouseEvent mouseEvent) {
-        ApplicationState.getInstance().handle(new DeliverLeafletUseCaseInput(
-                ApplicationState.getInstance().getCreatureName()
+        WS3DCreatureControlSystem.getApplicationState().handle(new DeliverLeafletUseCaseInput(
+                WS3DCreatureControlSystem.getApplicationState().getCreatureName()
         ));
     }
 }
