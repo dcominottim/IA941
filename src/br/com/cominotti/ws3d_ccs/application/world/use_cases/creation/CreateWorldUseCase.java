@@ -1,10 +1,9 @@
 package br.com.cominotti.ws3d_ccs.application.world.use_cases.creation;
 
-import br.com.cominotti.ws3d_ccs.application.commons.CreatureRepository;
 import br.com.cominotti.ws3d_ccs.application.RunnableUseCase;
+import br.com.cominotti.ws3d_ccs.application.commons.CreatureRepository;
 import br.com.cominotti.ws3d_ccs.application.commons.ThingRepository;
-import br.com.cominotti.ws3d_ccs.domain.model.commons.FoodPredicates;
-import br.com.cominotti.ws3d_ccs.domain.model.commons.ThingPredicates;
+import br.com.cominotti.ws3d_ccs.domain.model.commons.CreaturePredicates;
 import ws3dproxy.CommandExecException;
 import ws3dproxy.WS3DProxy;
 import ws3dproxy.model.Creature;
@@ -39,11 +38,20 @@ public final class CreateWorldUseCase implements RunnableUseCase<CreateWorldUseC
             Thread.sleep(6000);
             final WS3DProxy ws3DProxy = new WS3DProxy(input.getHost(), input.getPort());
             ws3DProxy.getWorld().reset();
+            ws3DProxy.getWorld().setDeliverySpot(600, 100);
+            World.createBrick(0, 570, 80, 580, 120);
+            World.createBrick(0, 620, 80, 630, 120);
+            World.createBrick(0, 570, 70, 630, 80);
             World.createFood(0, 100, 200);
+            World.createFood(0, 150, 200);
             World.createFood(1, 200, 200);
+            World.createFood(1, 250, 200);
             World.createFood(0, 300, 200);
+            World.createFood(0, 350, 200);
             World.createFood(1, 400, 200);
+            World.createFood(1, 450, 200);
             World.createFood(0, 500, 200);
+            World.createFood(0, 550, 200);
             World.createFood(1, 600, 200);
             World.createJewel(0, 100, 300);
             World.createJewel(1, 200, 300);
@@ -65,16 +73,17 @@ public final class CreateWorldUseCase implements RunnableUseCase<CreateWorldUseC
             World.createJewel(5, 600, 500);
             World.createCage(700, 500);
             World.getWorldEntities().stream().filter(
-                    ThingPredicates.isNotCreature()
+                    CreaturePredicates.isNotCreature()
             ).forEach(
                     thingRepository::save
             );
             final Creature creature = ws3DProxy.createCreature(100, 100, 100);
+            creature.updateState();
             creatureRepository.saveCreature(creature);
             return new CreateWorldUseCaseOutput(
                     creature.getName(),
                     thingRepository.getThings(
-                            ThingPredicates.isNotCreature()
+                            CreaturePredicates.isNotCreature()
                     ).stream().map(
                             Thing::getName
                     ).collect(

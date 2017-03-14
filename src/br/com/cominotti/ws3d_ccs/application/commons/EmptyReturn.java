@@ -6,6 +6,7 @@ public final class EmptyReturn {
 
 
     private EmptyReturn() {
+        //
     }
 
 

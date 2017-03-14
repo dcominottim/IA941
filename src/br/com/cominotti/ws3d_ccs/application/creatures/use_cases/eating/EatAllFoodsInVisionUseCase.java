@@ -2,9 +2,8 @@ package br.com.cominotti.ws3d_ccs.application.creatures.use_cases.eating;
 
 import br.com.cominotti.ws3d_ccs.application.RunnableUseCase;
 import br.com.cominotti.ws3d_ccs.application.commons.CreatureRepository;
-import br.com.cominotti.ws3d_ccs.application.commons.EmptyReturn;
 import br.com.cominotti.ws3d_ccs.application.commons.ThingRepository;
-import br.com.cominotti.ws3d_ccs.domain.model.commons.ThingPredicates;
+import br.com.cominotti.ws3d_ccs.domain.model.commons.FoodPredicates;
 import ws3dproxy.CommandExecException;
 import ws3dproxy.model.Creature;
 import ws3dproxy.model.Thing;
@@ -14,9 +13,6 @@ import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-/**
- * Created by dancm on 13/03/2017.
- */
 public class EatAllFoodsInVisionUseCase implements RunnableUseCase<EatAllFoodsInVisionUseCaseInput, EatAllFoodsInVisionUseCaseOutput> {
 
     private static final Logger LOGGER = Logger.getLogger(EatAllFoodsInVisionUseCase.class.getName());
@@ -41,7 +37,7 @@ public class EatAllFoodsInVisionUseCase implements RunnableUseCase<EatAllFoodsIn
             }
             List<Thing> foodsInVision = new ArrayList<>(creature.getThingsInVision())
                     .stream().filter(
-                            ThingPredicates.isFood()
+                            FoodPredicates.isFoodThing()
                     ).collect(
                             Collectors.toList()
                     );
@@ -53,11 +49,6 @@ public class EatAllFoodsInVisionUseCase implements RunnableUseCase<EatAllFoodsIn
                 thingRepository.remove(thing.getName());
                 LOGGER.info("Ate food " + thing.getName() + "...");
             }
-            creature.genLeaflet();
-            creature.updateState();
-            creature.getLeaflets().get(0).getWhatToCollect().keySet().forEach(
-                    System.out::println
-            );
             return new EatAllFoodsInVisionUseCaseOutput(eatenFoods);
         } catch (CommandExecException e) {
             LOGGER.severe(e.getMessage());

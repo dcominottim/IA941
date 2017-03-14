@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Created by dancm on 13/03/2017.
- */
 public class EatAllFoodsInVisionUseCaseOutput {
 
     private static final EatAllFoodsInVisionUseCaseOutput EMPTY_SINGLETON =

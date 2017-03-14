@@ -1,8 +1,8 @@
 package br.com.cominotti.ws3d_ccs.application.creatures.use_cases.hiding;
 
+import br.com.cominotti.ws3d_ccs.application.RunnableUseCase;
 import br.com.cominotti.ws3d_ccs.application.commons.CreatureRepository;
 import br.com.cominotti.ws3d_ccs.application.commons.EmptyReturn;
-import br.com.cominotti.ws3d_ccs.application.RunnableUseCase;
 import ws3dproxy.CommandExecException;
 import ws3dproxy.model.Creature;
 import ws3dproxy.model.Thing;
@@ -42,6 +42,4 @@ public class UnhideAllThingsInVisionUseCase implements RunnableUseCase<UnhideAll
             LOGGER.info("Finished " + UnhideAllThingsInVisionUseCase.class.getName());
         }
     }
-
-
 }

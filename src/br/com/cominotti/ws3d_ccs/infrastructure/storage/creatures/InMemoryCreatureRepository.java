@@ -1,27 +1,22 @@
 package br.com.cominotti.ws3d_ccs.infrastructure.storage.creatures;
 
 import br.com.cominotti.ws3d_ccs.application.commons.CreatureRepository;
-import br.com.cominotti.ws3d_ccs.infrastructure.storage.creatures.CreatureStorage;
-import br.com.cominotti.ws3d_ccs.infrastructure.storage.creatures.InMemoryCreatureStorage;
 import ws3dproxy.model.Creature;
+
+import java.util.HashMap;
 
 public class InMemoryCreatureRepository implements CreatureRepository {
 
-    private final InMemoryCreatureStorage creatureStorage;
-
-
-    public InMemoryCreatureRepository(final InMemoryCreatureStorage creatureStorage) {
-        this.creatureStorage = creatureStorage;
-    }
+    private HashMap<String, Creature> storage = new HashMap<>();
 
 
     @Override
     public Creature findCreatureByName(String creatureName) {
-        return creatureStorage.get(creatureName);
+        return storage.get(creatureName);
     }
 
     @Override
     public void saveCreature(Creature creature) {
-        creatureStorage.put(creature);
+        storage.put(creature.getName(), creature);
     }
 }

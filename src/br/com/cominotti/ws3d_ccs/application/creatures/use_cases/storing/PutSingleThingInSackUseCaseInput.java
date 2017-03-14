@@ -1,8 +1,5 @@
 package br.com.cominotti.ws3d_ccs.application.creatures.use_cases.storing;
 
-/**
- * Created by dancm on 13/03/2017.
- */
 public class PutSingleThingInSackUseCaseInput {
 
     private final String creatureName;

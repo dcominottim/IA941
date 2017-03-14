@@ -8,9 +8,6 @@ import ws3dproxy.model.Creature;
 
 import java.util.logging.Logger;
 
-/**
- * Created by dancm on 13/03/2017.
- */
 public class UnhideSingleThingUseCase implements RunnableUseCase<UnhideSingleThingUseCaseInput, EmptyReturn> {
 
     private static final Logger LOGGER = Logger.getLogger(UnhideSingleThingUseCase.class.getName());

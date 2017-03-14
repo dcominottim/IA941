@@ -1,8 +1,5 @@
 package br.com.cominotti.ws3d_ccs.application.creatures.use_cases.hiding;
 
-/**
- * Created by dancm on 13/03/2017.
- */
 public class UnhideSingleThingUseCaseInput {
 
     private final String creatureName;

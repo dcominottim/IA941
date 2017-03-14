@@ -1,7 +1,6 @@
 package br.com.cominotti.ws3d_ccs.application;
 
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executors;
 
 public class AsyncUseCaseRunner implements UseCaseRunner {
 

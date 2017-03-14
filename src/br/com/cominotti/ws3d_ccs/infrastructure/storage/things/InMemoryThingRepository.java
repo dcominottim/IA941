@@ -1,4 +1,4 @@
-package br.com.cominotti.ws3d_ccs.infrastructure.storage;
+package br.com.cominotti.ws3d_ccs.infrastructure.storage.things;
 
 import br.com.cominotti.ws3d_ccs.application.commons.ThingRepository;
 import ws3dproxy.model.Thing;

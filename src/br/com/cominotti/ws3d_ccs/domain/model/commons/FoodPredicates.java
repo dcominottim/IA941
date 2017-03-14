@@ -19,7 +19,8 @@ public class FoodPredicates {
                 thing.contains("Food");
     }
 
-    public static Predicate<Thing> nameEquals(String foodName) {
-        return thing -> thing.getName().equals(foodName);
+    public static Predicate<String> isNotFoodName() {
+        return thing ->
+                !thing.contains("Food");
     }
 }

@@ -1,43 +1,45 @@
-package br.com.cominotti.ws3d_ccs.application.creatures.use_cases.eating;
+package br.com.cominotti.ws3d_ccs.application.creatures.use_cases.gaming;
 
 import br.com.cominotti.ws3d_ccs.application.RunnableUseCase;
 import br.com.cominotti.ws3d_ccs.application.commons.CreatureRepository;
 import br.com.cominotti.ws3d_ccs.application.commons.EmptyReturn;
-import br.com.cominotti.ws3d_ccs.application.commons.ThingRepository;
+import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.eating.EatSingleFoodUseCase;
+import br.com.cominotti.ws3d_ccs.domain.model.commons.LeafletPrinter;
 import ws3dproxy.CommandExecException;
 import ws3dproxy.model.Creature;
 
 import java.util.logging.Logger;
 
-public final class EatSingleFoodUseCase implements RunnableUseCase<EatSingleFoodUseCaseInput, EmptyReturn> {
+public class GenerateLeafletUseCase implements RunnableUseCase<GenerateLeafletUseCaseInput, EmptyReturn> {
 
     private static final Logger LOGGER = Logger.getLogger(EatSingleFoodUseCase.class.getName());
 
     private final CreatureRepository creatureRepository;
 
-    private final ThingRepository thingRepository;
+    private final LeafletPrinter leafletPrinter;
 
 
-    public EatSingleFoodUseCase(final CreatureRepository creatureRepository, final ThingRepository thingRepository) {
+    public GenerateLeafletUseCase(final CreatureRepository creatureRepository, final LeafletPrinter leafletPrinter) {
         this.creatureRepository = creatureRepository;
-        this.thingRepository = thingRepository;
+        this.leafletPrinter = leafletPrinter;
     }
 
 
     @Override
-    public EmptyReturn run(final EatSingleFoodUseCaseInput input) {
+    public EmptyReturn run(GenerateLeafletUseCaseInput input) {
         try {
             final Creature creature = creatureRepository.findCreatureByName(input.getCreatureName());
-            creature.eatIt(input.getFoodName());
+            creature.genLeaflet();
             creature.updateState();
-            thingRepository.remove(input.getFoodName());
-            LOGGER.info("Ate food " + input.getFoodName() + "...");
+            creature.getLeaflets().forEach(
+                    leafletPrinter::printLeaflet
+            );
             return EmptyReturn.get();
         } catch (CommandExecException e) {
             LOGGER.severe(e.getMessage());
             throw new RuntimeException();
         } finally {
-            LOGGER.info("Finished " + EatSingleFoodUseCase.class.getName());
+            LOGGER.info("Finished " + GenerateLeafletUseCase.class.getName());
         }
     }
 }

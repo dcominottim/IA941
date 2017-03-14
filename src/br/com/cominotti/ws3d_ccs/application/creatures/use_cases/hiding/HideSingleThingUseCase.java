@@ -5,14 +5,9 @@ import br.com.cominotti.ws3d_ccs.application.commons.CreatureRepository;
 import br.com.cominotti.ws3d_ccs.application.commons.EmptyReturn;
 import ws3dproxy.CommandExecException;
 import ws3dproxy.model.Creature;
-import ws3dproxy.model.Thing;
 
-import java.util.ArrayList;
 import java.util.logging.Logger;
 
-/**
- * Created by dancm on 13/03/2017.
- */
 public class HideSingleThingUseCase implements RunnableUseCase<HideSingleThingUseCaseInput, EmptyReturn> {
 
     private static final Logger LOGGER = Logger.getLogger(HideSingleThingUseCase.class.getName());

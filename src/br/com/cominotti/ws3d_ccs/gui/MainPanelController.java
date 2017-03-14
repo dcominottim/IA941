@@ -3,6 +3,9 @@ package br.com.cominotti.ws3d_ccs.gui;
 import br.com.cominotti.ws3d_ccs.application.ApplicationState;
 import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.eating.EatAllFoodsInVisionUseCaseInput;
 import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.eating.EatSingleFoodUseCaseInput;
+import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.gaming.DeliverLeafletUseCaseInput;
+import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.gaming.GenerateLeafletUseCaseInput;
+import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.gaming.PrintLeafletsDetailsUseCaseInput;
 import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.hiding.HideAllThingsInVisionUseCaseInput;
 import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.hiding.HideSingleThingUseCaseInput;
 import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.hiding.UnhideAllThingsInVisionUseCaseInput;
@@ -11,7 +14,6 @@ import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.moving.*;
 import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.storing.PutAllThingsInVisionInSackUseCaseInput;
 import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.storing.PutSingleThingInSackUseCaseInput;
 import br.com.cominotti.ws3d_ccs.domain.model.commons.FoodPredicates;
-import br.com.cominotti.ws3d_ccs.domain.model.commons.ThingPredicates;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -49,7 +51,7 @@ public class MainPanelController implements Initializable {
         unhideSingleThingButton.setDisable(true);
         putSingleThingInStackButton.setDisable(true);
         environmentComboBox.setItems(
-                ApplicationState.getInstance().getObservableEnvironmentThings()
+                ApplicationState.getInstance().getObservableThings()
         );
         environmentComboBox.valueProperty().addListener(
                 (observable, oldValue, newValue) -> {
@@ -158,6 +160,24 @@ public class MainPanelController implements Initializable {
     public void handleUnhideSingleThingButtonOnMouseClicked(MouseEvent mouseEvent) {
         ApplicationState.getInstance().handle(new UnhideSingleThingUseCaseInput(
                 ApplicationState.getInstance().getCreatureName(), environmentComboBox.getValue()
+        ));
+    }
+
+    public void handleGenLeafletButtonOnMouseClicked(MouseEvent mouseEvent) {
+        ApplicationState.getInstance().handle(new GenerateLeafletUseCaseInput(
+                ApplicationState.getInstance().getCreatureName()
+        ));
+    }
+
+    public void handlePrintLeafletsButtonOnMouseClicked(MouseEvent mouseEvent) {
+        ApplicationState.getInstance().handle(new PrintLeafletsDetailsUseCaseInput(
+                ApplicationState.getInstance().getCreatureName()
+        ));
+    }
+
+    public void handleDeliverLeafletsButtonOnMouseClicked(MouseEvent mouseEvent) {
+        ApplicationState.getInstance().handle(new DeliverLeafletUseCaseInput(
+                ApplicationState.getInstance().getCreatureName()
         ));
     }
 }
