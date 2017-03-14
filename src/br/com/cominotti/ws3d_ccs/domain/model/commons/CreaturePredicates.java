@@ -11,5 +11,4 @@ public class CreaturePredicates {
         return thing ->
                 thing.getCategory() != Constants.categoryCREATURE;
     }
-
 }
