@@ -27,11 +27,12 @@ public class MoveForwardUseCase implements RunnableUseCase<MoveForwardUseCaseInp
             creature.start();
             creature.move(1.0, 1.0, 1.0);
             creature.updateState();
-            LOGGER.info("Moved creature forward...");
             return EmptyReturn.get();
         } catch (CommandExecException ex) {
             LOGGER.severe(ex.getMessage());
             throw new RuntimeException();
+        } finally {
+            LOGGER.info("Finished " + MoveForwardUseCase.class.getName());
         }
     }
 }

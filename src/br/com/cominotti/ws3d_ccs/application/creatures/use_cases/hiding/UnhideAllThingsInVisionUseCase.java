@@ -10,34 +10,36 @@ import ws3dproxy.model.Thing;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
-public class UnhideItUseCase implements RunnableUseCase<UnhideItUseCaseInput, EmptyReturn> {
+public class UnhideAllThingsInVisionUseCase implements RunnableUseCase<UnhideAllThingsInVisionUseCaseInput, EmptyReturn> {
 
-    private static final Logger LOGGER = Logger.getLogger(UnhideItUseCase.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(UnhideAllThingsInVisionUseCase.class.getName());
 
     private final CreatureRepository creatureRepository;
 
 
-    public UnhideItUseCase(final CreatureRepository creatureRepository) {
+    public UnhideAllThingsInVisionUseCase(final CreatureRepository creatureRepository) {
         this.creatureRepository = creatureRepository;
     }
 
 
     @Override
-    public EmptyReturn run(UnhideItUseCaseInput input) {
+    public EmptyReturn run(UnhideAllThingsInVisionUseCaseInput input) {
         try {
             final Creature creature = creatureRepository.findCreatureByName(input.getCreatureName());
-            if (creature.getThingsInVision() != null && !creature.getThingsInVision().isEmpty()) {
-                for (Thing thing : new ArrayList<>(creature.getThingsInVision())) {
-                    creature.unhideIt(thing.getName());
-                    LOGGER.info("Unhid thing " + thing.getName() + " ...");
-                }
-                creature.updateState();
+            if (creature.getThingsInVision() == null && creature.getThingsInVision().isEmpty()) {
+                return EmptyReturn.get();
             }
-            LOGGER.info("Finished Unhide It action...");
+            for (Thing thing : new ArrayList<>(creature.getThingsInVision())) {
+                creature.unhideIt(thing.getName());
+                creature.updateState();
+                LOGGER.info("Unhid thing " + thing.getName() + " ...");
+            }
             return EmptyReturn.get();
         } catch (CommandExecException ex) {
             LOGGER.severe(ex.getMessage());
             throw new RuntimeException();
+        } finally {
+            LOGGER.info("Finished " + UnhideAllThingsInVisionUseCase.class.getName());
         }
     }
 

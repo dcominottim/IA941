@@ -26,11 +26,12 @@ public class StopUseCase implements RunnableUseCase<StopUseCaseInput, EmptyRetur
             final Creature creature = creatureRepository.findCreatureByName(input.getCreatureName());
             creature.stop();
             creature.updateState();
-            LOGGER.info("Stopped creature...");
             return EmptyReturn.get();
         } catch (CommandExecException ex) {
             LOGGER.severe(ex.getMessage());
             throw new RuntimeException();
+        } finally {
+            LOGGER.info("Finished " + StopUseCase.class.getName());
         }
     }
 

@@ -7,11 +7,16 @@ import java.util.function.Predicate;
 
 public class FoodPredicates {
 
-    public static Predicate<Thing> isFood() {
+    public static Predicate<Thing> isFoodThing() {
         return thing ->
                 thing.getCategory() == Constants.categoryFOOD ||
                 thing.getCategory() == Constants.categoryNPFOOD ||
                 thing.getCategory() == Constants.categoryPFOOD;
+    }
+
+    public static Predicate<String> isFoodName() {
+        return thing ->
+                thing.contains("Food");
     }
 
     public static Predicate<Thing> nameEquals(String foodName) {

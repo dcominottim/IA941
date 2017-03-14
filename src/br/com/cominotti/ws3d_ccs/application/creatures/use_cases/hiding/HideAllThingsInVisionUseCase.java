@@ -10,36 +10,36 @@ import ws3dproxy.model.Thing;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
-public final class HideItUseCase implements RunnableUseCase<HideItUseCaseInput, EmptyReturn> {
+public final class HideAllThingsInVisionUseCase implements RunnableUseCase<HideAllThingsInVisionUseCaseInput, EmptyReturn> {
 
-    private static final Logger LOGGER = Logger.getLogger(HideItUseCase.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(HideAllThingsInVisionUseCase.class.getName());
 
     private final CreatureRepository creatureRepository;
 
 
-    public HideItUseCase(final CreatureRepository creatureRepository) {
+    public HideAllThingsInVisionUseCase(final CreatureRepository creatureRepository) {
         this.creatureRepository = creatureRepository;
     }
 
 
     @Override
-    public EmptyReturn run(final HideItUseCaseInput input) {
+    public EmptyReturn run(final HideAllThingsInVisionUseCaseInput input) {
         try {
             final Creature creature = creatureRepository.findCreatureByName(input.getCreatureName());
-            if (creature.getThingsInVision() != null && !creature.getThingsInVision().isEmpty()) {
-                for (Thing thing : new ArrayList<>(creature.getThingsInVision())) {
-                    creature.hideIt(thing.getName());
-                    LOGGER.info("Hid thing " + thing.getName() + " ...");
-                }
-                creature.updateState();
+            if (creature.getThingsInVision() == null && creature.getThingsInVision().isEmpty()) {
+                return EmptyReturn.get();
             }
-            LOGGER.info("Finished Hide It action...");
+            for (Thing thing : new ArrayList<>(creature.getThingsInVision())) {
+                creature.hideIt(thing.getName());
+                creature.updateState();
+                LOGGER.info("Hid thing " + thing.getName() + " ...");
+            }
             return EmptyReturn.get();
         } catch (CommandExecException ex) {
             LOGGER.severe(ex.getMessage());
             throw new RuntimeException();
+        } finally {
+            LOGGER.info("Finished " + HideAllThingsInVisionUseCase.class.getName());
         }
     }
-
-
 }

@@ -27,11 +27,12 @@ public class RotateRightUseCase implements RunnableUseCase<RotateRightUseCaseInp
             creature.start();
             creature.rotate(1.0);
             creature.updateState();
-            LOGGER.info("Rotated creature to the right...");
             return EmptyReturn.get();
         } catch (CommandExecException ex) {
             LOGGER.severe(ex.getMessage());
             throw new RuntimeException();
+        } finally {
+            LOGGER.info("Finished " + RotateRightUseCase.class.getName());
         }
     }
 }

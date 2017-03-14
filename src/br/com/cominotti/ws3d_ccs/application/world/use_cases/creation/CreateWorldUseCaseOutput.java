@@ -1,18 +1,18 @@
 package br.com.cominotti.ws3d_ccs.application.world.use_cases.creation;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CreateWorldUseCaseOutput {
 
     private final String creatureName;
 
-    private final Set<String> foodsNames;
+    private final List<String> objectsNames;
 
 
-    public CreateWorldUseCaseOutput(final String creatureName, final Set<String> foodsNames) {
+    public CreateWorldUseCaseOutput(final String creatureName, final List<String> objectsNames) {
         this.creatureName = creatureName;
-        this.foodsNames = new HashSet<>(foodsNames);
+        this.objectsNames = new ArrayList<>(objectsNames);
     }
 
 
@@ -20,7 +20,7 @@ public class CreateWorldUseCaseOutput {
         return creatureName;
     }
 
-    public Set<String> getFoodsNames() {
-        return new HashSet<>(foodsNames);
+    public List<String> getObjectsNames() {
+        return new ArrayList<>(objectsNames);
     }
 }

@@ -2,28 +2,32 @@ package br.com.cominotti.ws3d_ccs.application;
 
 
 import br.com.cominotti.ws3d_ccs.application.commons.EmptyReturn;
-import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.eating.EatItUseCaseInput;
-import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.hiding.HideItUseCaseInput;
-import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.hiding.UnhideItUseCaseInput;
+import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.eating.EatAllFoodsInVisionUseCaseInput;
+import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.eating.EatAllFoodsInVisionUseCaseOutput;
+import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.eating.EatSingleFoodUseCaseInput;
+import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.hiding.HideAllThingsInVisionUseCaseInput;
+import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.hiding.HideSingleThingUseCaseInput;
+import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.hiding.UnhideAllThingsInVisionUseCaseInput;
+import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.hiding.UnhideSingleThingUseCaseInput;
 import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.moving.*;
-import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.storing.PutInSackUseCaseInput;
+import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.storing.PutAllThingsInVisionInSackUseCaseInput;
+import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.storing.PutSingleThingInSackUseCaseInput;
 import br.com.cominotti.ws3d_ccs.application.world.use_cases.creation.CreateWorldUseCaseInput;
 import br.com.cominotti.ws3d_ccs.application.world.use_cases.creation.CreateWorldUseCaseOutput;
+import br.com.cominotti.ws3d_ccs.infrastructure.storage.InMemoryThingRepository;
 import br.com.cominotti.ws3d_ccs.infrastructure.storage.creatures.InMemoryCreatureRepository;
 import br.com.cominotti.ws3d_ccs.infrastructure.storage.creatures.InMemoryCreatureStorage;
-import br.com.cominotti.ws3d_ccs.infrastructure.storage.foods.InMemoryFoodRepository;
-import br.com.cominotti.ws3d_ccs.infrastructure.storage.foods.InMemoryFoodStorage;
 import javafx.application.Platform;
+import javafx.beans.property.ReadOnlyListWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableSet;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Set;
 import java.util.concurrent.CompletableFuture;
+import java.util.logging.Logger;
 
 public final class ApplicationState implements UseCaseRegistry {
+
+    private static final Logger LOGGER = Logger.getLogger(ApplicationState.class.getName());
 
     private static final ApplicationState SINGLETON = new ApplicationState();
 
@@ -31,9 +35,7 @@ public final class ApplicationState implements UseCaseRegistry {
 
     private String creatureName;
 
-    private Set<String> foodsNames;
-
-    private ObservableList<String> observableFoods;
+    private ObservableList<String> observableEnvironmentThings;
 
 
     private ApplicationState() {
@@ -41,9 +43,7 @@ public final class ApplicationState implements UseCaseRegistry {
                 new InMemoryCreatureRepository(
                         new InMemoryCreatureStorage()
                 ),
-                new InMemoryFoodRepository(
-                        new InMemoryFoodStorage()
-                )
+                new InMemoryThingRepository()
         );
     }
 
@@ -57,8 +57,8 @@ public final class ApplicationState implements UseCaseRegistry {
         return creatureName;
     }
 
-    public ObservableList<String> getObservableFoods() {
-        return observableFoods;
+    public ObservableList<String> getObservableEnvironmentThings() {
+        return new ReadOnlyListWrapper<>(observableEnvironmentThings);
     }
 
     @Override
@@ -66,9 +66,8 @@ public final class ApplicationState implements UseCaseRegistry {
         return useCaseRegistry.handle(input).thenApply(
                 createWorldUseCaseOutput -> {
                     creatureName = createWorldUseCaseOutput.getCreatureName();
-                    foodsNames = createWorldUseCaseOutput.getFoodsNames();
-                    observableFoods = FXCollections.observableList(
-                            new ArrayList<>(createWorldUseCaseOutput.getFoodsNames())
+                    observableEnvironmentThings = FXCollections.observableList(
+                            createWorldUseCaseOutput.getObjectsNames()
                     );
                     return createWorldUseCaseOutput;
                 }
@@ -76,11 +75,11 @@ public final class ApplicationState implements UseCaseRegistry {
     }
 
     @Override
-    public CompletableFuture<EmptyReturn> handle(final EatItUseCaseInput input) {
+    public CompletableFuture<EmptyReturn> handle(final EatSingleFoodUseCaseInput input) {
         return useCaseRegistry.handle(input).thenApply(
                 emptyReturn -> {
                     Platform.runLater(
-                            () -> observableFoods.remove(input.getFoodName())
+                            () -> observableEnvironmentThings.remove(input.getFoodName())
                     );
                     return emptyReturn;
                 }
@@ -88,12 +87,22 @@ public final class ApplicationState implements UseCaseRegistry {
     }
 
     @Override
-    public CompletableFuture<EmptyReturn> handle(final HideItUseCaseInput input) {
+    public CompletableFuture<EmptyReturn> handle(final HideAllThingsInVisionUseCaseInput input) {
         return useCaseRegistry.handle(input);
     }
 
     @Override
-    public CompletableFuture<EmptyReturn> handle(final UnhideItUseCaseInput input) {
+    public CompletableFuture<EmptyReturn> handle(final HideSingleThingUseCaseInput input) {
+        return useCaseRegistry.handle(input);
+    }
+
+    @Override
+    public CompletableFuture<EmptyReturn> handle(final UnhideAllThingsInVisionUseCaseInput input) {
+        return useCaseRegistry.handle(input);
+    }
+
+    @Override
+    public CompletableFuture<EmptyReturn> handle(final UnhideSingleThingUseCaseInput input) {
         return useCaseRegistry.handle(input);
     }
 
@@ -123,7 +132,37 @@ public final class ApplicationState implements UseCaseRegistry {
     }
 
     @Override
-    public CompletableFuture<EmptyReturn> handle(final PutInSackUseCaseInput input) {
+    public CompletableFuture<EatAllFoodsInVisionUseCaseOutput> handle(final EatAllFoodsInVisionUseCaseInput input) {
+        return useCaseRegistry.handle(input).thenApply(
+                eatAllFoodsInVisionUseCaseOutput -> {
+                    Platform.runLater(
+                            () -> observableEnvironmentThings.removeAll(
+                                    eatAllFoodsInVisionUseCaseOutput.getEatenFoods()
+                            )
+                    );
+                    return eatAllFoodsInVisionUseCaseOutput;
+                }
+        );
+    }
+
+    @Override
+    public CompletableFuture<EmptyReturn> handle(final PutAllThingsInVisionInSackUseCaseInput input) {
         return useCaseRegistry.handle(input);
+    }
+
+    @Override
+    public CompletableFuture<EmptyReturn> handle(final PutSingleThingInSackUseCaseInput input) {
+        return useCaseRegistry.handle(input).thenApply(
+                emptyReturn -> {
+                    Platform.runLater(
+                            () -> observableEnvironmentThings.remove(
+                                    input.getThingName()
+                            )
+                    );
+                    return emptyReturn;
+                }
+        ).exceptionally(
+                throwable -> null
+        );
     }
 }

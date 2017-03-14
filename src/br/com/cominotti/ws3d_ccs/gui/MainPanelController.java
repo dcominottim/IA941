@@ -1,16 +1,21 @@
 package br.com.cominotti.ws3d_ccs.gui;
 
 import br.com.cominotti.ws3d_ccs.application.ApplicationState;
-import br.com.cominotti.ws3d_ccs.application.DefaultUseCaseRegistry;
-import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.eating.EatItUseCaseInput;
-import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.hiding.HideItUseCaseInput;
-import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.hiding.UnhideItUseCaseInput;
+import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.eating.EatAllFoodsInVisionUseCaseInput;
+import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.eating.EatSingleFoodUseCaseInput;
+import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.hiding.HideAllThingsInVisionUseCaseInput;
+import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.hiding.HideSingleThingUseCaseInput;
+import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.hiding.UnhideAllThingsInVisionUseCaseInput;
+import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.hiding.UnhideSingleThingUseCaseInput;
 import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.moving.*;
-import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.storing.PutInSackUseCaseInput;
+import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.storing.PutAllThingsInVisionInSackUseCaseInput;
+import br.com.cominotti.ws3d_ccs.application.creatures.use_cases.storing.PutSingleThingInSackUseCaseInput;
+import br.com.cominotti.ws3d_ccs.domain.model.commons.FoodPredicates;
+import br.com.cominotti.ws3d_ccs.domain.model.commons.ThingPredicates;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
@@ -24,11 +29,37 @@ public class MainPanelController implements Initializable {
     @FXML
     private ComboBox<String> environmentComboBox;
 
+    @FXML
+    private Button eatSingleThingButton;
+
+    @FXML
+    private Button hideSingleThingButton;
+
+    @FXML
+    private Button unhideSingleThingButton;
+
+    @FXML
+    private Button putSingleThingInStackButton;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        eatSingleThingButton.setDisable(true);
+        hideSingleThingButton.setDisable(true);
+        unhideSingleThingButton.setDisable(true);
+        putSingleThingInStackButton.setDisable(true);
         environmentComboBox.setItems(
-                ApplicationState.getInstance().getObservableFoods()
+                ApplicationState.getInstance().getObservableEnvironmentThings()
+        );
+        environmentComboBox.valueProperty().addListener(
+                (observable, oldValue, newValue) -> {
+                    eatSingleThingButton.setDisable(
+                            newValue == null || !FoodPredicates.isFoodName().test(newValue)
+                    );
+                    hideSingleThingButton.setDisable(newValue == null);
+                    unhideSingleThingButton.setDisable(newValue == null);
+                    putSingleThingInStackButton.setDisable(newValue == null);
+                }
         );
     }
 
@@ -81,27 +112,52 @@ public class MainPanelController implements Initializable {
         ));
     }
 
-    public void handleEatItButtonOnMouseClicked(MouseEvent mouseEvent) {
-        ApplicationState.getInstance().handle(new EatItUseCaseInput(
+
+    public void handleEatAllThingsInVisionButtonOnMouseClicked(MouseEvent mouseEvent) {
+        ApplicationState.getInstance().handle(new EatAllFoodsInVisionUseCaseInput(
+                ApplicationState.getInstance().getCreatureName()
+        ));
+    }
+
+    public void handlePutAllThingsInVisionInSackButtonOnMouseClicked(MouseEvent mouseEvent) {
+        ApplicationState.getInstance().handle(new PutAllThingsInVisionInSackUseCaseInput(
+                ApplicationState.getInstance().getCreatureName()
+        ));
+    }
+
+    public void handleHideAllThingsInVisionButtonOnMouseClicked(MouseEvent mouseEvent) {
+        ApplicationState.getInstance().handle(new HideAllThingsInVisionUseCaseInput(
+                ApplicationState.getInstance().getCreatureName()
+        ));
+    }
+
+    public void handleUnhideAllThingsInVisionButtonOnMouseClicked(MouseEvent mouseEvent) {
+        ApplicationState.getInstance().handle(new UnhideAllThingsInVisionUseCaseInput(
+                ApplicationState.getInstance().getCreatureName()
+        ));
+    }
+
+    public void handleEatSingleThingButtonOnMouseClicked(MouseEvent mouseEvent) {
+        ApplicationState.getInstance().handle(new EatSingleFoodUseCaseInput(
                 ApplicationState.getInstance().getCreatureName(), environmentComboBox.getValue()
         ));
     }
 
-    public void handlePutInSackButtonOnMouseClicked(MouseEvent mouseEvent) {
-        ApplicationState.getInstance().handle(new PutInSackUseCaseInput(
-                ApplicationState.getInstance().getCreatureName()
+    public void handlePutSingleThingInSackButtonOnMouseClicked(MouseEvent mouseEvent) {
+        ApplicationState.getInstance().handle(new PutSingleThingInSackUseCaseInput(
+                ApplicationState.getInstance().getCreatureName(), environmentComboBox.getValue()
         ));
     }
 
-    public void handleHideItButtonOnMouseClicked(MouseEvent mouseEvent) {
-        ApplicationState.getInstance().handle(new HideItUseCaseInput(
-                ApplicationState.getInstance().getCreatureName()
+    public void handleHideSingleThingButtonOnMouseClicked(MouseEvent mouseEvent) {
+        ApplicationState.getInstance().handle(new HideSingleThingUseCaseInput(
+                ApplicationState.getInstance().getCreatureName(), environmentComboBox.getValue()
         ));
     }
 
-    public void handleUnhideItButtonOnMouseClicked(MouseEvent mouseEvent) {
-        ApplicationState.getInstance().handle(new UnhideItUseCaseInput(
-                ApplicationState.getInstance().getCreatureName()
+    public void handleUnhideSingleThingButtonOnMouseClicked(MouseEvent mouseEvent) {
+        ApplicationState.getInstance().handle(new UnhideSingleThingUseCaseInput(
+                ApplicationState.getInstance().getCreatureName(), environmentComboBox.getValue()
         ));
     }
 }

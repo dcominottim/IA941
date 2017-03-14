@@ -28,11 +28,12 @@ public class MoveBackwardUseCase implements RunnableUseCase<MoveBackwardUseCaseI
             creature.start();
             creature.move(-1.0, -1.0, -1.0);
             creature.updateState();
-            LOGGER.info("Moved creature backward...");
             return EmptyReturn.get();
         } catch (CommandExecException ex) {
             LOGGER.severe(ex.getMessage());
             throw new RuntimeException();
+        } finally {
+            LOGGER.info("Finished " + MoveBackwardUseCase.class.getName());
         }
     }
 }
